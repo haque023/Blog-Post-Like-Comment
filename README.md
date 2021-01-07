@@ -17,6 +17,7 @@ or
 {local}/Blog             -------*************-----------url
 
 --for new comment and blog veiw
+
 {local}/Blog/BlogView -------*************-----------url
 
 
