@@ -1,0 +1,91 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <title>User View and comment</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="" id="allBlog">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script>
+
+        function addComment(id) {
+            console.log('myCom', id);
+            var myComment = $("#mycomment" + id).val();
+            if (myComment != "") {
+                $.post("CreateComment", { commentText: myComment, blogCode: id }, function (msg) {
+
+                    location.href = "";
+                });
+
+            }
+
+        }
+
+
+        function addNewPost(elm) {
+            console.log(elm);
+            if (elm.blogText != null) {
+                var myHtml = ' <div class="panel">\
+                   <div class="panel-body">\
+                      <h3>' + elm.blogText + '</h3>\
+                        <div id="comment' + elm.blogCode + '"></div>                \
+                          <input type="text" id="mycomment' + elm.blogCode + '" value="" />  \
+                          <button onclick="addComment(\'' + elm.blogCode + '\')" > submit </button>    \
+                   </div>\
+               </div>\
+                 ';
+                $("#allBlog").append(myHtml);
+                setInnerComment(elm.blogCode);
+            }
+        }
+
+
+        function setInnerComment(id) {
+            $.post("BlogWiseComment", { blogCode: id }, function (msg) {
+                msg = msg[0];
+                console.log(msg);
+                var myHtml="";
+                for (var i = 0; i < msg.length; i++) {
+                    myHtml += '<div class="panel-body"> ' + msg[i].commentText + ' </div>';
+                }
+                $("#comment" + id).html(myHtml);
+
+                //msg = JSON.parse(msg);
+                //console.log(msg);
+
+            });
+
+        }
+
+        $(document).ready(function () {
+            $.post("AllBlogs", {}, function (msg) {
+                msg = msg[0];
+                console.log(msg);
+                msg.forEach(addNewPost);
+
+                //msg = JSON.parse(msg);
+                //console.log(msg);
+
+            });
+
+        });
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿@using BlogPost.Models;
+@model IEnumerable<BlogPost.Models.Report>
+@using Microsoft.AspNetCore.Http;
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <title>User crete and logon</title>
+    <style>
+        span{
+            cursor:pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="table table-bordered">
+
+        @{
+            
+            foreach (var report in Model)
+            {
+                <tr>
+                    <td>
+                        @report.blogText
+                    </td>
+                    <td>
+                        @report.blogger
+                    </td>
+                    <td>
+                        @report.blogTime.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @report.comments.Count Comments
+                    </td>
+                </tr>
+
+                List<Comments> commentList = report.comments;
+
+                foreach (var comment in commentList)
+                {
+
+
+                    <tr>
+                        <td class="text-center">
+                            @comment.commentText
+                        </td>
+                        <td>
+                            @comment.commenterName
+                        </td>
+                        <td>
+                            @comment.commentTime.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @{
+                                if (comment.myStatus == "L")
+                                {
+
+                                    <span onclick="dislike('@comment.commentCode','D')"> Dislike( @comment.dislike ) </span>
+                                    <span onclick="like('@comment.commentCode','L' )"style="color: green;"> Like( @comment.like  ) </span>
+
+                                }
+                                else if (comment.myStatus == "D")
+                                {
+                                    <span onclick="dislike('@comment.commentCode','D')"  style="color: green;"> Dislike(@comment.dislike) </span>
+                                    <span onclick="like('@comment.commentCode','L' )"> Like( @comment.like  ) </span>
+                                }
+                                else
+                                {
+                                    <span onclick="dislike('@comment.commentCode','D')"> Dislike(@comment.dislike) </span>
+                                    <span onclick="like('@comment.commentCode','L' )"> Like( @comment.like  ) </span>
+
+                                }
+                            }
+
+                            <input type="hidden" id="status @comment.commentCode" value="@comment.myStatus" />
+
+                        </td>
+
+                    </tr>
+                                    }
+
+                                }
+
+        }
+
+    </table>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+</body>
+</html>
+
+<script>
+
+    function like(commentCode,likeDislike) {
+
+        var old = $("#status" + commentCode).val();
+        (old != likeDislike) ? likeDislike = likeDislike : likeDislike = "N";
+
+        $.post("LikeDeslike", { commentCode: commentCode, likeDeslike: likeDislike }, function (msg) {
+            if (msg.includes("userNot")) {
+                alert("user id not found,please login first");
+                location.href = "../User";
+            }
+            else location.href = "";
+
+        });
+    }
+    function dislike(commentCode, likeDislike) {
+        var old = $("#status" + commentCode).val();
+        (old != likeDislike) ? likeDislike = likeDislike : likeDislike = "N";
+
+        $.post("LikeDeslike", { commentCode: commentCode, likeDeslike: likeDislike }, function (msg) {
+            if (msg.includes("userNot")) {
+                alert("user id not found,please login first");
+                location.href = "../User";
+            }
+            else location.href = "";
+
+        });
+
+    }
+
+</script>

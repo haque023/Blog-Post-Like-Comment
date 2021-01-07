@@ -1,0 +1,28 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <title>User crete and logon</title>
+</head>
+<body>
+    <div class="row">
+        <form class="form-group col-md-6" method="post" enctype="multipart/form-data" asp-controller="Blog" asp-action="Create">
+            <div class="row">
+                <div class="col-md-12 text-center"><h3>Create New Blog</h3></div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" name="blogText" placeholder="blog here..." />
+                </div>
+                <div class="col-xs-4">
+                    <input type="submit" name="create" value="submit" class="btn btn-sm btn-success" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+</body>
+</html>
