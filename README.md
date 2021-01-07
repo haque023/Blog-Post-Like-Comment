@@ -1,6 +1,11 @@
 "# ExamTest" 
 dotnet core 1.0.1 --sorry for my lower visual studio (15)
  
+ --for create new acccount and sign in-
+
+{local}/User            -------*************-----------url
+ 
+ 
 for specific View
 
 {local}/Blog/ReportView/{userid} -------*************-----------url
@@ -8,9 +13,7 @@ for specific View
 or 
 {local}/Blog/ReportView  -------*************-----------url (main test)
 
---for create new acccount and sign in-
 
-{local}/User            -------*************-----------url
 
 --for new blog--
 
